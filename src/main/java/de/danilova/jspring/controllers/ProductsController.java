@@ -1,17 +1,13 @@
 package de.danilova.jspring.controllers;
-
-
-
+import de.danilova.jspring.exception.EntityNotFoundException;
 import de.danilova.jspring.models.Product;
 import de.danilova.jspring.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -35,7 +31,7 @@ public class ProductsController {
 
     @GetMapping("/{id}")
     public String form(@PathVariable("id") Long id, Model model){
-        model.addAttribute("product", productService.getProductById(id));
+        model.addAttribute("product", productService.getProductById(id).orElseThrow(()-> new EntityNotFoundException(String.format("User with id %s not found", id))));
         return "product_form";
     }
 
@@ -47,7 +43,7 @@ public class ProductsController {
 
 
     @PostMapping("/addProduct")
-    public String addProduct(@Valid Product product, BindingResult bindingResult){
+    public String addProduct(@RequestBody @Valid Product product, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             return "product_form";
         }
@@ -55,11 +51,25 @@ public class ProductsController {
         return "redirect:/products";
     }
 
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public String deleteById(@PathVariable("id") long id){
         productService.deleteProductById(id);
         return "redirect:/products";
     }
+
+    //вроде бы все сделала как вы на уроке, но почему то все равно не показывает страницу not_found. Продолжает показывать: Whitelabel Error Page
+    //This application has no explicit mapping for /error, so you are seeing this as a fallback.
+    //
+    //Tue Sep 13 09:14:14 CEST 2022
+    //There was an unexpected error (type=Internal Server Error, status=500).
+    //могли бы вы подсказать в чем проблема?
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String notFoundExceptionHandler(Model model, EntityNotFoundException e) {
+        model.addAttribute("message", e.getMessage());
+        return "not_found";
+    }
+
 
 
 

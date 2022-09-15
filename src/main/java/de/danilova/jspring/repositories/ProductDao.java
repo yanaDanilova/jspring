@@ -1,5 +1,6 @@
 package de.danilova.jspring.repositories;
 
+import de.danilova.jspring.models.Customer;
 import de.danilova.jspring.models.Product;
 import de.danilova.jspring.utils.HibernateUtils;
 import org.hibernate.Session;
@@ -54,6 +55,15 @@ public class ProductDao {
             session.saveOrUpdate(product);
             session.getTransaction().commit();
 
+    }
+
+    public List<Customer> getCustomerListByProductId(Long id){
+        Session session = hibernateUtils.getCurrentSession();
+        session.beginTransaction();
+        Product product = session.get(Product.class, id);
+        List<Customer> customerList = product.getCustomerList();
+        session.getTransaction().commit();
+        return customerList;
     }
 
 }
