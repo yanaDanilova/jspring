@@ -1,6 +1,7 @@
 package de.danilova.jspring.services;
 
 
+import de.danilova.jspring.models.Customer;
 import de.danilova.jspring.models.Product;
 import de.danilova.jspring.repositories.ProductDao;
 
@@ -34,5 +35,9 @@ public class ProductService {
 
     public void deleteProductById(Long id){
         productDao.deleteById(id);
+    }
+
+    public List<Customer> getCustomerListByProductId(Long id){
+        return productDao.getCustomerListByProductId(id);
     }
 }

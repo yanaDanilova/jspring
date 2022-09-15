@@ -1,17 +1,15 @@
 package de.danilova.jspring.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
-
-
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -27,9 +25,10 @@ public class Product {
     @Column(name="name")
     private String name;
 
-    //@NotBlank если ставлю эту аннатацию на поля с типом  Integer или Double  вападает вот этот Exception -->
-    //javax.validation.UnexpectedTypeException: HV000030: No validator could be found for constraint 'javax.validation.constraints.NotBlank' validating type 'java.lang.Integer'. Check configuration for 'price'
-    //для этих типов данных должна быть другая аннотация для такой проверки или в чем проблема?
+    @ManyToMany
+    @JoinTable(name = "customers_products",joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns =@JoinColumn(name = "customer_id"))
+    private List<Customer> customerList;
+
     @Min(value = 1)
     @Column(name="price")
     private Integer price;
@@ -38,4 +37,9 @@ public class Product {
     @Column(name="weight")
     private Long weight;
 
+
+ @Override
+ public String toString() {
+  return String.format("Product [id = %d, name = %s, price = %s, weight = %d]", id, name, price, weight);
+ }
 }

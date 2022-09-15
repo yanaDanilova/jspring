@@ -16,5 +16,6 @@
         <property name="current_session_context_class">thread</property>
 
         <mapping class="de.danilova.jspring.models.Product"/>
+        <mapping class="de.danilova.jspring.models.Customer"/>
     </session-factory>
 </hibernate-configuration>
