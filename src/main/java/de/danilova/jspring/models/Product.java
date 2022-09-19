@@ -25,9 +25,9 @@ public class Product {
     @Column(name="name")
     private String name;
 
-    @ManyToMany
-    @JoinTable(name = "customers_products",joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns =@JoinColumn(name = "customer_id"))
-    private List<Customer> customerList;
+   // @ManyToMany
+  //  @JoinTable(name = "customers_products",joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns =@JoinColumn(name = "customer_id"))
+  //  private List<Customer> customerList;
 
     @Min(value = 1)
     @Column(name="price")
