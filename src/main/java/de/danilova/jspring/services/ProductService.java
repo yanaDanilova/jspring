@@ -3,8 +3,10 @@ package de.danilova.jspring.services;
 
 import de.danilova.jspring.models.Customer;
 import de.danilova.jspring.models.Product;
-import de.danilova.jspring.repositories.ProductDao;
 
+
+import de.danilova.jspring.repositories.ProductRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,32 +14,30 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
 
-    private ProductDao productDao;
+    private final ProductRepository productRepository;
 
-    @Autowired
-    public ProductService(ProductDao productDao){
-        this.productDao = productDao;
-    }
+
     public List<Product> getAllProducts(){
-        return productDao.findAll();
+        return productRepository.findAll();
     }
 
     public Optional<Product> getProductById(Long id){
-        return productDao.findById(id);
+        return productRepository.findById(id);
     }
 
 
     public void addNewProduct(Product product){
-        productDao.saveOrUpdate(product);
+        productRepository.save(product);
     }
 
     public void deleteProductById(Long id){
-        productDao.deleteById(id);
+        productRepository.deleteById(id);
     }
 
     public List<Customer> getCustomerListByProductId(Long id){
-        return productDao.getCustomerListByProductId(id);
+        return productRepository.getCustomerListById(id);
     }
 }

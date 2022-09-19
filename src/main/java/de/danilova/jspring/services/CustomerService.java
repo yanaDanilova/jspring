@@ -2,7 +2,7 @@ package de.danilova.jspring.services;
 
 import de.danilova.jspring.models.Customer;
 import de.danilova.jspring.models.Product;
-import de.danilova.jspring.repositories.CustomerDao;
+import de.danilova.jspring.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,30 +12,30 @@ import java.util.Optional;
 @Service
 public class CustomerService {
 
-    private CustomerDao customerDao;
+    private CustomerRepository customerRepository;
 
     @Autowired
-    public CustomerService(CustomerDao customerDao){
-        this.customerDao=customerDao;
+    public CustomerService(CustomerRepository customerDao){
+        this.customerRepository=customerDao;
     }
     public List<Customer> getAllCustomers(){
-        return customerDao.findAll();
+        return customerRepository.findAll();
     }
 
     public Optional<Customer> getCustomerById(Long id){
-        return customerDao.findById(id);
+        return customerRepository.findById(id);
     }
 
 
     public void addNewCustomer(Customer customer){
-        customerDao.saveOrUpdate(customer);
+        customerRepository.save(customer);
     }
 
     public void deleteCustomerById(Long id){
-        customerDao.deleteById(id);
+        customerRepository.deleteById(id);
     }
 
     public List<Product> getProductListByCustomerId(Long id){
-      return customerDao.getProductListByCustomerId(id);
+      return customerRepository.getProductListByCustomerId(id);
     }
 }

@@ -1,7 +1,9 @@
+/*
 package de.danilova.jspring.controllers;
 import de.danilova.jspring.exception.EntityNotFoundException;
 import de.danilova.jspring.models.Product;
 import de.danilova.jspring.services.ProductService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -12,15 +14,13 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/products")
 public class ProductsController {
 
-    private ProductService productService;
+    private final ProductService productService;
 
-    @Autowired
-    public ProductsController ( ProductService productService){
-        this.productService = productService;
-    }
+
 
     @GetMapping
     public String showAllProducts(Model model){
@@ -43,26 +43,17 @@ public class ProductsController {
 
 
     @PostMapping("/addProduct")
-    public String addProduct(@RequestBody @Valid Product product, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            return "product_form";
-        }
+    public String addProduct(@RequestBody Product product){
         productService.addNewProduct(product);
         return "redirect:/products";
     }
 
     @DeleteMapping("/{id}")
-    public String deleteById(@PathVariable("id") long id){
+    public String deleteById(@PathVariable("id") Long id){
         productService.deleteProductById(id);
         return "redirect:/products";
     }
 
-    //вроде бы все сделала как вы на уроке, но почему то все равно не показывает страницу not_found. Продолжает показывать: Whitelabel Error Page
-    //This application has no explicit mapping for /error, so you are seeing this as a fallback.
-    //
-    //Tue Sep 13 09:14:14 CEST 2022
-    //There was an unexpected error (type=Internal Server Error, status=500).
-    //могли бы вы подсказать в чем проблема?
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String notFoundExceptionHandler(Model model, EntityNotFoundException e) {
@@ -74,3 +65,4 @@ public class ProductsController {
 
 
 }
+*/
