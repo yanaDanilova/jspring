@@ -1,13 +1,11 @@
 package de.danilova.jspring.services;
 
 
-import de.danilova.jspring.models.Customer;
 import de.danilova.jspring.models.Product;
 
 
 import de.danilova.jspring.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,7 +35,4 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
-    public List<Customer> getCustomerListByProductId(Long id){
-        return productRepository.getCustomerListById(id);
-    }
 }

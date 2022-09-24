@@ -3,18 +3,15 @@ package de.danilova.jspring.controllers;
 import de.danilova.jspring.models.Product;
 import de.danilova.jspring.services.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
 @org.springframework.web.bind.annotation.RestController
 @RequiredArgsConstructor
-@RequestMapping("/products")
-public class RestController {
+@RequestMapping("/api/v1/products")
+public class ProductController {
     private final ProductService productService;
 
     @GetMapping
@@ -27,13 +24,17 @@ public class RestController {
         return productService.getProductById(id);
     }
 
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public void deleteProductById(@PathVariable Long id){
          productService.deleteProductById(id);
     }
-
     @PostMapping
-    public void addNewProduct(Product product){
+    public void addNewProduct(@RequestBody Product product){
+        productService.addNewProduct(product);
+    }
+
+    @PutMapping
+    public void updateProduct(@RequestBody Product product){
         productService.addNewProduct(product);
     }
 }
